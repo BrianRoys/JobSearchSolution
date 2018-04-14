@@ -39,7 +39,8 @@ namespace JobSearchSolution.Controllers
         // GET: Contacts/Create
         public ActionResult Create()
         {
-            ViewBag.UserId = new SelectList(db.User, "Id", "UserName");
+            ViewBag.Users = new SelectList(db.User, "Id", "UserName");
+			ViewBag.Opps = new SelectList(db.Opp, "Id", "ShopName");
             return View();
         }
 
@@ -58,7 +59,8 @@ namespace JobSearchSolution.Controllers
             }
 
             ViewBag.UserId = new SelectList(db.User, "Id", "UserName", contact.UserId);
-            return View(contact);
+			ViewBag.OppId = new SelectList(db.Opp, "Id", "ShopName", contact.Opp);
+			return View(contact);
         }
 
         // GET: Contacts/Edit/5
