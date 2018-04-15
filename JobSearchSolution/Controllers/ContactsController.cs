@@ -17,8 +17,8 @@ namespace JobSearchSolution.Controllers
         // GET: Contacts
         public ActionResult Index()
         {
-            var contacts = db.Contact.Include(c => c.User);
-            return View(contacts.ToList());
+            var contact = db.Contact.Include(c => c.User);
+            return View(contact.ToList());
         }
 
         // GET: Contacts/Details/5
@@ -39,9 +39,10 @@ namespace JobSearchSolution.Controllers
         // GET: Contacts/Create
         public ActionResult Create()
         {
-            ViewBag.Users = new SelectList(db.User, "Id", "UserName");
-			ViewBag.Opps = new SelectList(db.Opp, "Id", "ShopName");
+            ViewBag.UserId = new SelectList(db.User, "Id", "UserName");
+            ViewBag.OppId = new SelectList(db.Opp, "Id", "ShopName");
             return View();
+
         }
 
         // POST: Contacts/Create
@@ -59,8 +60,7 @@ namespace JobSearchSolution.Controllers
             }
 
             ViewBag.UserId = new SelectList(db.User, "Id", "UserName", contact.UserId);
-			ViewBag.OppId = new SelectList(db.Opp, "Id", "ShopName", contact.Opp);
-			return View(contact);
+            return View(contact);
         }
 
         // GET: Contacts/Edit/5
