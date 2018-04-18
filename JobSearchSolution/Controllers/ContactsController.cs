@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using JobSearchSolution;
+using System.Collections;
 
 namespace JobSearchSolution.Controllers
 {
@@ -40,9 +41,9 @@ namespace JobSearchSolution.Controllers
         public ActionResult Create()
         {
             ViewBag.UserId = new SelectList(db.User, "Id", "UserName");
-            ViewBag.OppId = new SelectList(db.Opp, "Id", "ShopName");
+			ViewBag.OppId = new SelectList(db.Opp, "Id", "ShopName");
+			
             return View();
-
         }
 
         // POST: Contacts/Create
@@ -54,8 +55,15 @@ namespace JobSearchSolution.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Contact.Add(contact);
-                db.SaveChanges();
+				string str = Request["Opp"]; // e.g. "1,2,5"
+
+				foreach (string oId in str.Split(','))
+				{
+					Opp o = db.Opp.Find(Int32.Parse(oId));
+					contact.Opp.Add(o);
+				}
+				db.Contact.Add(contact);
+				db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
