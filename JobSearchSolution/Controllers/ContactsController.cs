@@ -18,7 +18,8 @@ namespace JobSearchSolution.Controllers
         // GET: Contacts
         public ActionResult Index()
         {
-            var contact = db.Contact.Include(c => c.User);
+			int userId = (int)System.Web.HttpContext.Current.Session["CurrentUserId"];
+			var contact = db.Contact.Where(c => c.UserId == userId).Include(c => c.User);
             return View(contact.ToList());
         }
 
@@ -40,9 +41,8 @@ namespace JobSearchSolution.Controllers
         // GET: Contacts/Create
         public ActionResult Create()
         {
-            ViewBag.UserId = new SelectList(db.User, "Id", "UserName");
-			ViewBag.OppId = new SelectList(db.Opp, "Id", "ShopName");
-			
+			ViewBag.Opps = new SelectList(db.Opp, "Id", "Name");
+			ViewBag.Events = new SelectList(db.Event, "Id", "Name");
             return View();
         }
 
@@ -55,8 +55,10 @@ namespace JobSearchSolution.Controllers
         {
             if (ModelState.IsValid)
             {
-				string str = Request["Opp"]; // e.g. "1,2,5"
+				contact.UserId = (int)System.Web.HttpContext.Current.Session["CurrentUserId"];
+				contact.User = db.User.Find(contact.UserId);
 
+				string str = Request["Opp"]; // e.g. "1,2,5"
 				foreach (string oId in str.Split(','))
 				{
 					Opp o = db.Opp.Find(Int32.Parse(oId));

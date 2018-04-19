@@ -27,6 +27,7 @@ namespace JobSearchSolution
         public Nullable<System.DateTime> Date { get; set; }
         public string Description { get; set; }
         public string Results { get; set; }
+        public string Name { get; set; }
     
         public virtual EventType EventType { get; set; }
         public virtual User User { get; set; }

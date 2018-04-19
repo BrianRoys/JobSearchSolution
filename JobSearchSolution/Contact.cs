@@ -9,19 +9,16 @@
 
 namespace JobSearchSolution
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Web.Mvc;
-
-	public partial class Contact
+    using System;
+    using System.Collections.Generic;
+    
+    public partial class Contact
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Contact()
         {
             this.Event = new HashSet<Event>();
             this.Opp = new HashSet<Opp>();
-			this.selectedOpp = new List<string>();
-			this.availableOpp = new List<SelectListItem>();
         }
     
         public int Id { get; set; }
@@ -33,14 +30,12 @@ namespace JobSearchSolution
         public string PhysicalAddress { get; set; }
         public string URL { get; set; }
         public string Notes { get; set; }
+        public Nullable<bool> IsActive { get; set; }
     
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Event> Event { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Opp> Opp { get; set; }
-
-		public IList<string> selectedOpp { get; set; }
-		public IList<SelectListItem> availableOpp { get; set; }
     }
 }

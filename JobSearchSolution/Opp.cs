@@ -23,12 +23,12 @@ namespace JobSearchSolution
     
         public int Id { get; set; }
         public int UserId { get; set; }
-        public string ShopName { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
         public byte[] DateOpened { get; set; }
         public Nullable<int> Status { get; set; }
         public string Location { get; set; }
-        public bool IsClosed { get; set; }
+        public bool IsActive { get; set; }
         public string Rate { get; set; }
         public bool HasBeenReported { get; set; }
     
