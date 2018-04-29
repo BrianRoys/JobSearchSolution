@@ -18,7 +18,7 @@
           <Property Name="PhysicalAddress" Type="varchar" MaxLength="256" />
           <Property Name="URL" Type="varchar" MaxLength="45" />
           <Property Name="Notes" Type="varchar" MaxLength="1024" />
-          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Event">
           <Key>
@@ -104,7 +104,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="UserName" Type="varchar" MaxLength="45" />
           <Property Name="Name" Type="varchar" MaxLength="45" />
           <Property Name="EMailAddress" Type="varchar" MaxLength="256" />
@@ -319,7 +319,7 @@
           <NavigationProperty Name="User" Relationship="Self.fkContact_User" FromRole="Contact" ToRole="User" />
           <NavigationProperty Name="Event" Relationship="Self.Event2Contact" FromRole="Contact" ToRole="Event" />
           <NavigationProperty Name="Opp" Relationship="Self.Opp2Contact" FromRole="Contact" ToRole="Opp" />
-          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Event">
           <Key>
@@ -391,7 +391,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="UserName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="EMailAddress" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />

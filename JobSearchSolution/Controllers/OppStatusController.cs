@@ -10,138 +10,107 @@ using JobSearchSolution;
 
 namespace JobSearchSolution.Controllers
 {
-    public class EventsController : Controller
+    public class OppStatusController : Controller
     {
         private JSSEntities2 db = new JSSEntities2();
 
-        // GET: Events
+        // GET: OppStatus
         public ActionResult Index()
         {
-			var events = db.Event.Where(c => c.UserId == SessionValues.CurrentUserId).Include(e => e.EventType).Include(e => e.User);
-			return View(events.ToList());
+            return View(db.OppStatus.ToList().OrderByDescending(s => s.SortOrder));
         }
 
-        // GET: Events/Details/5
+        // GET: OppStatus/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-			// The '@' changes a keyword 'event' to a variable name.
-            Event @event = db.Event.Find(id);
-            if (@event == null)
+            OppStatus oppStatus = db.OppStatus.Find(id);
+            if (oppStatus == null)
             {
                 return HttpNotFound();
             }
-            return View(@event);
+            return View(oppStatus);
         }
 
-        // GET: Events/Create
+        // GET: OppStatus/Create
         public ActionResult Create()
         {
-            ViewBag.Type = new SelectList(db.EventType, "Id", "Type");
-            ViewBag.Contact = new SelectList(db.Contact, "Id", "Name");
-            ViewBag.Opp = new SelectList(db.Opp, "Id", "Name");
             return View();
         }
 
-        // POST: Events/Create
+        // POST: OppStatus/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Type,Date,Description,Results")] Event @event)
+        public ActionResult Create([Bind(Include = "Id,IsActive,SortOrder,Status")] OppStatus oppStatus)
         {
             if (ModelState.IsValid)
             {
-				@event.UserId = SessionValues.CurrentUserId;
-				string str = Request["Opp"]; // e.g. "1,2,5"
-				if (str != null)
-				{
-					foreach (string oId in str.Split(','))
-					{
-						Opp o = db.Opp.Find(Int32.Parse(oId));
-						@event.Opp.Add(o);
-					}
-				}
-				str = Request["Contact"]; // e.g. "1,2,5"
-				if (str != null)
-				{
-					foreach (string cId in str.Split(','))
-					{
-						Contact c = db.Contact.Find(Int32.Parse(cId));
-						@event.Contact.Add(c);
-					}
-				}
-
-				db.Event.Add(@event);
+                db.OppStatus.Add(oppStatus);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            // ViewBag.Type = new SelectList(db.EventType, "Id", "Type", @event.Type);
-            // ViewBag.UserId = new SelectList(db.User, "Id", "UserName", @event.UserId);
-            return View(@event);
+            return View(oppStatus);
         }
 
-        // GET: Events/Edit/5
+        // GET: OppStatus/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Event @event = db.Event.Find(id);
-            if (@event == null)
+            OppStatus oppStatus = db.OppStatus.Find(id);
+            if (oppStatus == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Type = new SelectList(db.EventType, "Id", "Type", @event.Type);
-            return View(@event);
+            return View(oppStatus);
         }
 
-        // POST: Events/Edit/5
+        // POST: OppStatus/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,UserId,Name,Type,Date,Description,Results")] Event @event)
+        public ActionResult Edit([Bind(Include = "Id,IsActive,SortOrder,Status")] OppStatus oppStatus)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(@event).State = EntityState.Modified;
+                db.Entry(oppStatus).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Type = new SelectList(db.EventType, "Id", "Type", @event.Type);
-            ViewBag.UserId = new SelectList(db.User, "Id", "UserName", @event.UserId);
-            return View(@event);
+            return View(oppStatus);
         }
 
-        // GET: Events/Delete/5
+        // GET: OppStatus/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Event @event = db.Event.Find(id);
-            if (@event == null)
+            OppStatus oppStatus = db.OppStatus.Find(id);
+            if (oppStatus == null)
             {
                 return HttpNotFound();
             }
-            return View(@event);
+            return View(oppStatus);
         }
 
-        // POST: Events/Delete/5
+        // POST: OppStatus/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Event @event = db.Event.Find(id);
-            db.Event.Remove(@event);
+            OppStatus oppStatus = db.OppStatus.Find(id);
+            db.OppStatus.Remove(oppStatus);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

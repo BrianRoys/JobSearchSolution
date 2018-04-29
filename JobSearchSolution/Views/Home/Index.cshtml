@@ -4,17 +4,18 @@
 
 <div class="jumbotron">
     <h1>Job Search Solution</h1>
-	<p>Three aspects of the job search process:</p>
+	<h2>Three aspects of the job search process:</h2>
 	<ul>
-		<li>@Html.ActionLink("Events", "Index", "Events")</li>
 		<li>@Html.ActionLink("Opportunities", "Index", "Opps")</li>
 		<li>@Html.ActionLink("Contacts", "Index", "Contacts")</li>
-
+		<li>@Html.ActionLink("Events", "Index", "Events")</li>
 	</ul>
-	<p>And two reference tables:</p>
-	<ul>
-		<li>@Html.ActionLink("Event Types", "Index", "EventTypes")</li>
-		<li>@Html.ActionLink("Opportunity Statuses", "Index", "OppStatus")</li>
-		<li>@Html.ActionLink("User", "Index", "Users")</li>
-	</ul>   
+	<div style="margin-left:4em; font-size:small;">
+		<h4>And two reference tables:</h4>
+		<ul>
+			<li>@Html.ActionLink("Event Types", "Index", "EventTypes")</li>
+			<li>@Html.ActionLink("Opportunity Statuses", "Index", "OppStatus")</li>
+			<li>@Html.ActionLink("User", "Index", "Users")</li>
+		</ul>
+	</div>
 </div>

@@ -17,7 +17,7 @@ namespace JobSearchSolution.Controllers
         // GET: EventTypes
         public ActionResult Index()
         {
-            return View(db.EventType.ToList());
+            return View(db.EventType.ToList().OrderBy(e => e.SortOrder));
         }
 
         // GET: EventTypes/Details/5
@@ -54,7 +54,6 @@ namespace JobSearchSolution.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
             return View(eventType);
         }
 

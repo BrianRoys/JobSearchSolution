@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<JobSearchSolution.Contact>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Contacts";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -33,6 +33,12 @@
         <th>
             @Html.DisplayNameFor(model => model.Notes)
         </th>
+		<th>
+			@Html.DisplayNameFor(model => model.IsActive)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Opp)
+		</th>
         <th></th>
     </tr>
 
@@ -59,10 +65,19 @@
         <td>
             @Html.DisplayFor(modelItem => item.Notes)
         </td>
+		<td>
+			@Html.DisplayFor(modelItem => item.IsActive)
+		</td>
+		<td>
+			@foreach (var o in item.Opp)
+			{
+				@Html.ActionLink(o.Name, "Details", "Opps", new { id = o.Id }, null);
+				<br />
+			}
+		</td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) 
         </td>
     </tr>
 }

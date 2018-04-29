@@ -11,7 +11,7 @@ namespace JobSearchSolution.Controllers
 		public ActionResult Index()
 		{
 			// Just for now.
-			System.Web.HttpContext.Current.Session["CurrentUserId"] = 6;
+			SessionValues.CurrentUserId = 6;
 
 			return View();
 		}

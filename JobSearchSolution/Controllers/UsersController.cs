@@ -50,6 +50,7 @@ namespace JobSearchSolution.Controllers
         {
             if (ModelState.IsValid)
             {
+				user.IsActive = true;
                 db.User.Add(user);
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -30,10 +30,10 @@ namespace JobSearchSolution
         public string PhysicalAddress { get; set; }
         public string URL { get; set; }
         public string Notes { get; set; }
-        public Nullable<bool> IsActive { get; set; }
-    
-        public virtual User User { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public bool IsActive { get; set; }
+
+		public virtual User User { get; set; }
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Event> Event { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Opp> Opp { get; set; }

@@ -67,6 +67,28 @@
             @Html.DisplayFor(model => model.Notes)
         </dd>
 
+		<dt>
+			@Html.DisplayNameFor(model => model.Opp)
+		</dt>
+		<dd>
+			@foreach (var o in Model.Opp)
+			{
+				@Html.ActionLink(o.Name, "Details", "Opps", new { id = o.Id }, null);
+				<br />
+			}
+		</dd>
+
+
+		<dt>
+			@Html.DisplayNameFor(model => model.Event)
+		</dt>
+		<dd>
+			@foreach (var e in Model.Event)
+			{
+				@Html.ActionLink(e.Name, "Details", "Events", new { id = e.Id }, null);
+				<br />
+			}
+		</dd>
     </dl>
 </div>
 <p>

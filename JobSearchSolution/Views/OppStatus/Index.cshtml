@@ -1,11 +1,11 @@
-﻿@model IEnumerable<JobSearchSolution.EventType>
+﻿@model IEnumerable<JobSearchSolution.OppStatus>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Event Types</h2>
+<h2>Opportunity Statuses</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -13,7 +13,7 @@
 <table class="table">
     <tr>
 		<th>
-			@Html.DisplayNameFor(model => model.Type)
+			@Html.DisplayNameFor(model => model.Status)
 		</th>
         <th>
             @Html.DisplayNameFor(model => model.SortOrder)
@@ -27,7 +27,7 @@
 @foreach (var item in Model) {
     <tr>
 		<td>
-			@Html.DisplayFor(modelItem => item.Type)
+			@Html.DisplayFor(modelItem => item.Status)
 		</td>
         <td>
             @Html.DisplayFor(modelItem => item.SortOrder)
