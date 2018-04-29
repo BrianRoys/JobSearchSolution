@@ -157,35 +157,6 @@ namespace JobSearchSolution.Controllers
             return View(contactView);
         }
 
-        // GET: Contacts/Delete/5
-        public ActionResult Delete(int? id)
-        {
-			// Never delete Contacts, just set them as not active.
-			throw new NotImplementedException(); 
-
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Contact contact = db.Contact.Find(id);
-            if (contact == null)
-            {
-                return HttpNotFound();
-            }
-            return View(contact);
-        }
-
-        // POST: Contacts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Contact contact = db.Contact.Find(id);
-            db.Contact.Remove(contact);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

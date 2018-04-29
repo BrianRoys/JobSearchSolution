@@ -88,32 +88,6 @@ namespace JobSearchSolution.Controllers
             return View(eventType);
         }
 
-        // GET: EventTypes/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            EventType eventType = db.EventType.Find(id);
-            if (eventType == null)
-            {
-                return HttpNotFound();
-            }
-            return View(eventType);
-        }
-
-        // POST: EventTypes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            EventType eventType = db.EventType.Find(id);
-            db.EventType.Remove(eventType);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

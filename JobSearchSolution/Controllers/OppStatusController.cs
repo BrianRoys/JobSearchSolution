@@ -89,32 +89,6 @@ namespace JobSearchSolution.Controllers
             return View(oppStatus);
         }
 
-        // GET: OppStatus/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            OppStatus oppStatus = db.OppStatus.Find(id);
-            if (oppStatus == null)
-            {
-                return HttpNotFound();
-            }
-            return View(oppStatus);
-        }
-
-        // POST: OppStatus/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            OppStatus oppStatus = db.OppStatus.Find(id);
-            db.OppStatus.Remove(oppStatus);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
