@@ -51,20 +51,20 @@
             @Html.DisplayFor(model => model.Rate)
         </dd>
 
+		<dt>
+			@Html.DisplayNameFor(model => model.OppStatus.Status)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.OppStatus.Status)
+		</dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.HasBeenReported)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.HasBeenReported)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.OppStatus.Status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.OppStatus.Status)
         </dd>
 
 		<dt>
@@ -75,6 +75,28 @@
 			@Html.DisplayFor(model => model.IsActive)
 		</dd>
 
+		<dt>
+			@Html.DisplayNameFor(model => model.Contact)
+		</dt>
+		<dd>
+			@foreach (var o in Model.Contact)
+			{
+				@Html.ActionLink(o.Name, "Details", "Contacts", new { id = o.Id }, null);
+				<br />
+			}
+		</dd>
+
+
+		<dt>
+			@Html.DisplayNameFor(model => model.Event)
+		</dt>
+		<dd>
+			@foreach (var e in Model.Event)
+			{
+				@Html.ActionLink(e.Name, "Details", "Events", new { id = e.Id }, null);
+				<br />
+			}
+		</dd>
 
     </dl>
 </div>

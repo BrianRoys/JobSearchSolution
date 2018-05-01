@@ -39,9 +39,10 @@ namespace JobSearchSolution.Controllers
         // GET: Opps/Create
         public ActionResult Create()
         {
-            ViewBag.Status = new SelectList(db.OppStatus, "Id", "Status");
-            ViewBag.UserId = new SelectList(db.User, "Id", "UserName");
-            return View();
+			Opp o = new Opp();
+			o.IsActive = true;
+			o.DateOpened = DateTime.Now;
+            return View(o);
         }
 
         // POST: Opps/Create
@@ -49,17 +50,15 @@ namespace JobSearchSolution.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,UserId,Name,Description,DateOpened,Status,Location,IsActive,Rate,HasBeenReported")] Opp opp)
+        public ActionResult Create([Bind(Include = "Name,Description,DateOpened,Status,Location,IsActive,Rate,HasBeenReported")] Opp opp)
         {
             if (ModelState.IsValid)
             {
+				opp.UserId = SessionValues.CurrentUserId;
                 db.Opp.Add(opp);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.Status = new SelectList(db.OppStatus, "Id", "Status", opp.Status);
-            ViewBag.UserId = new SelectList(db.User, "Id", "UserName", opp.UserId);
             return View(opp);
         }
 
@@ -76,7 +75,6 @@ namespace JobSearchSolution.Controllers
                 return HttpNotFound();
             }
             ViewBag.Status = new SelectList(db.OppStatus, "Id", "Status", opp.Status);
-            ViewBag.UserId = new SelectList(db.User, "Id", "UserName", opp.UserId);
             return View(opp);
         }
 

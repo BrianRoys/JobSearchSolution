@@ -25,7 +25,7 @@ namespace JobSearchSolution
         public int UserId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public byte[] DateOpened { get; set; }
+        public Nullable<System.DateTime> DateOpened { get; set; }
         public Nullable<int> Status { get; set; }
         public string Location { get; set; }
         public bool IsActive { get; set; }

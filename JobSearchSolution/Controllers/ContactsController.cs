@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using JobSearchSolution;
-using System.Collections;
 using JobSearchSolution.ViewModel;
 
 namespace JobSearchSolution.Controllers
@@ -41,9 +36,13 @@ namespace JobSearchSolution.Controllers
         // GET: Contacts/Create
         public ActionResult Create()
         {
-			ViewBag.Opps = new SelectList(db.Opp.Where(o => o.IsActive), "Id", "Name");
-			ViewBag.Events = new SelectList(db.Event, "Id", "Name");
-            return View();
+			ContactViewModel cvm = new ContactViewModel
+			{
+				Contact = new Contact(),
+				AllOpps = new SelectList(db.Opp.Where(o => o.IsActive && o.UserId == SessionValues.CurrentUserId), "Id", "Name"),
+				AllEvents = new SelectList(db.Event.Where(e =>  e.UserId == SessionValues.CurrentUserId), "Id", "Name")
+			};
+            return View(cvm);
         }
 
         // POST: Contacts/Create
@@ -51,37 +50,17 @@ namespace JobSearchSolution.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Phone,EMailAddress,AgencyName,PhysicalAddress,URL,Notes")] Contact contact)
+        public ActionResult Create(ContactViewModel cvm)
         {
             if (ModelState.IsValid)
             {
-				contact.UserId = SessionValues.CurrentUserId;
-				contact.IsActive = true;				
-
-				string str = Request["Opp"]; // e.g. "1,2,5"
-				if (str != null)
-				{
-					foreach (string oId in str.Split(','))
-					{
-						Opp o = db.Opp.Find(Int32.Parse(oId));
-						contact.Opp.Add(o);
-					}
-				}
-				str = Request["Event"]; // e.g. "1,2,5"
-				if (str != null)
-				{
-					foreach (string eId in str.Split(','))
-					{
-						Event e = db.Event.Find(Int32.Parse(eId));
-						contact.Event.Add(e);
-					}
-				}
-				db.Contact.Add(contact);
+				cvm.Contact.UserId = SessionValues.CurrentUserId;
+				cvm.Contact.IsActive = true;				
+				db.Contact.Add(cvm.Contact);
 				db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            return View(contact);
+            return View(cvm);
         }
 
         // GET: Contacts/Edit/5
@@ -91,19 +70,16 @@ namespace JobSearchSolution.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
 			var contactViewModel = new ContactViewModel
 			{
 				Contact = db.Contact.Include(i => i.Opp).Include(i => i.Event).First(c => c.Id == (int)id)
 			};
-
 			if (contactViewModel.Contact == null)
 			{
 				return HttpNotFound();
 			}
-
-			contactViewModel.AllEvents = new SelectList(db.Event, "Id", "Name");
-			contactViewModel.AllOpps = new SelectList(db.Opp.Where(o => o.IsActive), "Id", "Name");
+			contactViewModel.AllEvents = new SelectList(db.Event.Where(e => e.UserId == SessionValues.CurrentUserId), "Id", "Name");
+			contactViewModel.AllOpps = new SelectList(db.Opp.Where(o => o.IsActive && o.UserId == SessionValues.CurrentUserId), "Id", "Name");
 			return View(contactViewModel);
 		}
 
@@ -116,7 +92,6 @@ namespace JobSearchSolution.Controllers
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
-
             if (ModelState.IsValid)
             {
 				var oldContact = db.Contact

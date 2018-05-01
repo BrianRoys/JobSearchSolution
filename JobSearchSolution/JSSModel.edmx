@@ -57,7 +57,7 @@
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="45" />
           <Property Name="Description" Type="varchar" MaxLength="1024" />
-          <Property Name="DateOpened" Type="timestamp" StoreGeneratedPattern="Computed" />
+          <Property Name="DateOpened" Type="datetime" StoreGeneratedPattern="Computed" />
           <Property Name="Status" Type="int" />
           <Property Name="Location" Type="varchar" MaxLength="256" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
@@ -355,7 +355,7 @@
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
-          <Property Name="DateOpened" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="DateOpened" Type="DateTime" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="Status" Type="Int32" />
           <Property Name="Location" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />

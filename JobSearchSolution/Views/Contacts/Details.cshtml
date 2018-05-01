@@ -78,6 +78,13 @@
 			}
 		</dd>
 
+		<dd>
+			@foreach (var e in Model.Event)
+			{
+				@Html.ActionLink(e.Name, "Details", "Events", new { id = e.Id }, null);
+				<br />
+			}
+		</dd>
 
 		<dt>
 			@Html.DisplayNameFor(model => model.Event)

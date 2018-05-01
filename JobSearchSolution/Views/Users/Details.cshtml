@@ -5,19 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>Users</h2>
 
 <div>
-    <h4>User</h4>
+    <h4>Details</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsActive)
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.UserName)
@@ -44,14 +37,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PasswordHash)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PasswordHash)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.PhoneNumber)
         </dt>
 
@@ -59,6 +44,13 @@
             @Html.DisplayFor(model => model.PhoneNumber)
         </dd>
 
+		<dt>
+			@Html.DisplayNameFor(model => model.IsActive)
+		</dt>
+
+		<dd>
+			@Html.DisplayFor(model => model.IsActive)
+		</dd>
     </dl>
 </div>
 <p>
