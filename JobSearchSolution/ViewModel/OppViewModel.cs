@@ -9,9 +9,11 @@ namespace JobSearchSolution.ViewModel
 		public Opp Opp { get; set; }
 		public IEnumerable<SelectListItem> AllEvents { get; set; }
 		public IEnumerable<SelectListItem> AllContacts { get; set; }
+		public IEnumerable<SelectListItem> AllStatuses { get; set; }
 
 		private List<int> _selectedEvents;
 		private List<int> _selectedContacts;
+		private int _selectedStatus;
 
 		public List<int> SelectedEvents
 		{
@@ -42,6 +44,18 @@ namespace JobSearchSolution.ViewModel
 			set
 			{
 				_selectedContacts = value;
+			}
+		}
+
+		public int SelectedStatus
+		{
+			get
+			{
+				return _selectedStatus;
+			}
+			set
+			{
+				_selectedStatus = value;
 			}
 		}
 	}

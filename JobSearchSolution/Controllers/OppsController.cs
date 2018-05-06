@@ -36,14 +36,12 @@ namespace JobSearchSolution.Controllers
         // GET: Opps/Create
         public ActionResult Create()
         {
-			ViewBag.Status = new SelectList(db.OppStatus.Where(o => o.IsActive).OrderByDescending(o => o.SortOrder), "Id", "Status");
 			OppViewModel ovm = new OppViewModel
 			{
-				Opp = new Opp(),
-				AllContacts = new SelectList(db.Contact.Where(c => c.IsActive && c.UserId == SessionValues.CurrentUserId), "Id", "Name"),
-				AllEvents = new SelectList(db.Event.Where(e => e.UserId == SessionValues.CurrentUserId), "Id", "Name")
+				Opp = new Opp()
 			};
-            return View(ovm);
+			LoadLists(ref ovm);
+			return View(ovm);
         }
 
         // POST: Opps/Create
@@ -53,7 +51,12 @@ namespace JobSearchSolution.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(OppViewModel ovm)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+			{
+				LoadLists(ref ovm);
+				return View(ovm);
+			}
+			else
             {
 				ovm.Opp.UserId = SessionValues.CurrentUserId;
 				ovm.Opp.DateOpened = DateTime.Now;
@@ -76,7 +79,6 @@ namespace JobSearchSolution.Controllers
 				db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(ovm);
         }
 
         // GET: Opps/Edit/5
@@ -86,30 +88,30 @@ namespace JobSearchSolution.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-			ViewBag.Status = new SelectList(db.OppStatus.Where(o => o.IsActive).OrderByDescending(o => o.SortOrder), "Id", "Status");
 			OppViewModel ovm = new OppViewModel
 			{
 				Opp = db.Opp.Include(i => i.Contact).Include(i => i.Event).First(c => c.Id == (int)id)
 			};
-            if (ovm.Opp == null)
+            if (ovm == null)
             {
                 return HttpNotFound();
             }
-			ovm.AllEvents = new SelectList(db.Event.Where(e => e.UserId == SessionValues.CurrentUserId), "Id", "Name");
-			ovm.AllContacts = new SelectList(db.Contact.Where(o => o.IsActive && o.UserId == SessionValues.CurrentUserId), "Id", "Name");
+			LoadLists(ref ovm);
 			return View(ovm);
         }
 
         // POST: Opps/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(OppViewModel ovm)
         {
-            if (ModelState.IsValid)
-            {
-				var oldOpp = db.Opp
+            if (!ModelState.IsValid)
+			{
+				LoadLists(ref ovm);
+				return View(ovm);
+			}
+			{
+				Opp oldOpp = db.Opp
 					.Include(i => i.Contact)
 					.Include(i => i.Event)
 					.First(c => c.Id == ovm.Opp.Id);
@@ -143,7 +145,6 @@ namespace JobSearchSolution.Controllers
 				}
 				return RedirectToAction("Index");
             }
-            return View(ovm);
         }
 
         protected override void Dispose(bool disposing)
@@ -154,5 +155,12 @@ namespace JobSearchSolution.Controllers
             }
             base.Dispose(disposing);
         }
-    }
+
+		private void LoadLists(ref OppViewModel ovm)
+		{
+			ovm.AllEvents = new SelectList(db.Event.Where(e => e.UserId == SessionValues.CurrentUserId), "Id", "Name");
+			ovm.AllContacts = new SelectList(db.Contact.Where(o => o.IsActive && o.UserId == SessionValues.CurrentUserId), "Id", "Name");
+			ovm.AllStatuses = new SelectList(db.OppStatus.Where(o => o.IsActive).OrderBy(o => o.SortOrder), "Id", "Status");
+		}
+	}
 }

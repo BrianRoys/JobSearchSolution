@@ -32,13 +32,13 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Opp.OppStatus, "Status", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("Status", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Opp.OppStatus, "", new { @class = "text-danger" })
-            </div>
-        </div>
+		<div class="form-group">
+			@Html.LabelFor(model => model.Opp.Status, "Status", htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.DropDownListFor(m => m.Opp.Status, Model.AllStatuses, htmlAttributes: new { @class = "form-control" })
+				@Html.ValidationMessageFor(model => model.Opp.OppStatus, "", new { @class = "text-danger" })
+			</div>
+		</div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Opp.Location, htmlAttributes: new { @class = "control-label col-md-2" })
