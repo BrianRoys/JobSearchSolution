@@ -28,13 +28,16 @@
             @Html.DisplayNameFor(model => model.Rate)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.HasBeenReported)
+            @Html.DisplayName("Reported")
         </th>
         <th>
             @Html.DisplayNameFor(model => model.OppStatus.Status)
         </th>
 		<th>
 			@Html.DisplayNameFor(model => model.IsActive)
+		</th>
+		<th>
+			@Html.DisplayName("Contacts")
 		</th>
         <th></th>
     </tr>
@@ -64,6 +67,13 @@
         </td>
 		<td>
 			@Html.DisplayFor(modelItem => item.IsActive)
+		</td>
+		<td>
+			@foreach (var o in item.Contact)
+			{
+				@Html.ActionLink(o.Name, "Details", "Contacts", new { id = o.Id }, null);
+				<br />
+			}
 		</td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

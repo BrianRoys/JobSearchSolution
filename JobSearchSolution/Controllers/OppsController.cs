@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using JobSearchSolution;
+using JobSearchSolution.ViewModel;
 
 namespace JobSearchSolution.Controllers
 {
@@ -17,7 +14,7 @@ namespace JobSearchSolution.Controllers
         // GET: Opps
         public ActionResult Index()
         {
-            var opps = db.Opp.Include(o => o.OppStatus).Include(o => o.User);
+            var opps = db.Opp.Where(o => o.UserId == SessionValues.CurrentUserId).Include(o => o.OppStatus);
             return View(opps.ToList());
         }
 
@@ -39,10 +36,14 @@ namespace JobSearchSolution.Controllers
         // GET: Opps/Create
         public ActionResult Create()
         {
-			Opp o = new Opp();
-			o.IsActive = true;
-			o.DateOpened = DateTime.Now;
-            return View(o);
+			ViewBag.Status = new SelectList(db.OppStatus.Where(o => o.IsActive).OrderByDescending(o => o.SortOrder), "Id", "Status");
+			OppViewModel ovm = new OppViewModel
+			{
+				Opp = new Opp(),
+				AllContacts = new SelectList(db.Contact.Where(c => c.IsActive && c.UserId == SessionValues.CurrentUserId), "Id", "Name"),
+				AllEvents = new SelectList(db.Event.Where(e => e.UserId == SessionValues.CurrentUserId), "Id", "Name")
+			};
+            return View(ovm);
         }
 
         // POST: Opps/Create
@@ -50,16 +51,32 @@ namespace JobSearchSolution.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name,Description,DateOpened,Status,Location,IsActive,Rate,HasBeenReported")] Opp opp)
+        public ActionResult Create(OppViewModel ovm)
         {
             if (ModelState.IsValid)
             {
-				opp.UserId = SessionValues.CurrentUserId;
-                db.Opp.Add(opp);
-                db.SaveChanges();
+				ovm.Opp.UserId = SessionValues.CurrentUserId;
+				ovm.Opp.DateOpened = DateTime.Now;
+				ovm.Opp.IsActive = true;
+				db.Opp.Add(ovm.Opp);
+				foreach (var ev in db.Event)
+				{
+					if (ovm.SelectedEvents.Contains(ev.Id))
+					{
+						ovm.Opp.Event.Add(ev);
+					}
+				}
+				foreach (var c in db.Contact)
+				{
+					if (ovm.SelectedContacts.Contains(c.Id))
+					{
+						ovm.Opp.Contact.Add(c);
+					}
+				}
+				db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(opp);
+            return View(ovm);
         }
 
         // GET: Opps/Edit/5
@@ -69,13 +86,18 @@ namespace JobSearchSolution.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Opp opp = db.Opp.Find(id);
-            if (opp == null)
+			ViewBag.Status = new SelectList(db.OppStatus.Where(o => o.IsActive).OrderByDescending(o => o.SortOrder), "Id", "Status");
+			OppViewModel ovm = new OppViewModel
+			{
+				Opp = db.Opp.Include(i => i.Contact).Include(i => i.Event).First(c => c.Id == (int)id)
+			};
+            if (ovm.Opp == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Status = new SelectList(db.OppStatus, "Id", "Status", opp.Status);
-            return View(opp);
+			ovm.AllEvents = new SelectList(db.Event.Where(e => e.UserId == SessionValues.CurrentUserId), "Id", "Name");
+			ovm.AllContacts = new SelectList(db.Contact.Where(o => o.IsActive && o.UserId == SessionValues.CurrentUserId), "Id", "Name");
+			return View(ovm);
         }
 
         // POST: Opps/Edit/5
@@ -83,17 +105,45 @@ namespace JobSearchSolution.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,UserId,Name,Description,DateOpened,Status,Location,IsActive,Rate,HasBeenReported")] Opp opp)
+        public ActionResult Edit(OppViewModel ovm)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(opp).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+				var oldOpp = db.Opp
+					.Include(i => i.Contact)
+					.Include(i => i.Event)
+					.First(c => c.Id == ovm.Opp.Id);
+
+				if (TryUpdateModel(oldOpp, "Opp"))
+				{
+					foreach (Event ev in db.Event)
+					{
+						if (ovm.SelectedEvents.Contains(ev.Id))
+						{
+							oldOpp.Event.Add(ev);
+						}
+						else
+						{
+							oldOpp.Event.Remove(ev);
+						}
+					}
+					foreach (Contact c in db.Contact.Where(e => e.IsActive))
+					{
+						if (ovm.SelectedContacts.Contains(c.Id))
+						{
+							oldOpp.Contact.Add(c);
+						}
+						else
+						{
+							oldOpp.Contact.Remove(c);
+						}
+					}
+					db.Entry(oldOpp).State = EntityState.Modified;
+					db.SaveChanges();
+				}
+				return RedirectToAction("Index");
             }
-            ViewBag.Status = new SelectList(db.OppStatus, "Id", "Status", opp.Status);
-            ViewBag.UserId = new SelectList(db.User, "Id", "UserName", opp.UserId);
-            return View(opp);
+            return View(ovm);
         }
 
         protected override void Dispose(bool disposing)

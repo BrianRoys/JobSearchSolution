@@ -205,6 +205,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>JSSModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="JSSModel1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JSSModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -247,7 +252,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="JSSModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>JSSModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>JSSModel1.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <Content Include="JSSModel.edmx.diagram">
       <DependentUpon>JSSModel.edmx</DependentUpon>

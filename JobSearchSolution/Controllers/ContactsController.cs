@@ -14,8 +14,8 @@ namespace JobSearchSolution.Controllers
         // GET: Contacts
         public ActionResult Index()
         {
-			var contact = db.Contact.Where(c => c.UserId == SessionValues.CurrentUserId); // .Include(c => c.User);
-            return View(contact.ToList());
+			var contacts = db.Contact.Where(c => c.UserId == SessionValues.CurrentUserId); 
+            return View(contacts.ToList());
         }
 
         // GET: Contacts/Details/5
@@ -57,6 +57,20 @@ namespace JobSearchSolution.Controllers
 				cvm.Contact.UserId = SessionValues.CurrentUserId;
 				cvm.Contact.IsActive = true;				
 				db.Contact.Add(cvm.Contact);
+				foreach (var ev in db.Event)
+				{
+					if (cvm.SelectedEvents.Contains(ev.Id))
+					{
+						cvm.Contact.Event.Add(ev);
+					}
+				}
+				foreach (var op in db.Opp)
+				{
+					if (cvm.SelectedOpps.Contains(op.Id))
+					{
+						cvm.Contact.Opp.Add(op);
+					}
+				}
 				db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -123,7 +137,7 @@ namespace JobSearchSolution.Controllers
 							oldContact.Opp.Remove(op);
 						}
 					}
-					contactView.Contact.UserId = SessionValues.CurrentUserId;
+					// contactView.Contact.UserId = SessionValues.CurrentUserId;
 					db.Entry(oldContact).State = EntityState.Modified;
 					db.SaveChanges();
 				}
