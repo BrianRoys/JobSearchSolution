@@ -92,7 +92,7 @@ namespace JobSearchSolution.Controllers
 			{
 				Opp = db.Opp.Include(i => i.Contact).Include(i => i.Event).First(c => c.Id == (int)id)
 			};
-            if (ovm == null)
+            if (ovm.Opp == null)
             {
                 return HttpNotFound();
             }

@@ -9,9 +9,11 @@ namespace JobSearchSolution.ViewModel
 		public Event Event { get; set; }
 		public IEnumerable<SelectListItem> AllContacts { get; set; }
 		public IEnumerable<SelectListItem> AllOpps { get; set; }
+		public IEnumerable<SelectListItem> AllEventTypes { get; set; }
 
 		private List<int> _selectedContacts;
 		private List<int> _selectedOpps;
+		private int _selectedEventType;
 
 		public List<int> SelectedContacts
 		{
@@ -42,6 +44,18 @@ namespace JobSearchSolution.ViewModel
 			set
 			{
 				_selectedOpps = value;
+			}
+		}
+
+		public int SelectedEventType
+		{
+			get
+			{
+				return _selectedEventType;
+			}
+			set
+			{
+				_selectedEventType = value;
 			}
 		}
 	}

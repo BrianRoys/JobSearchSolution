@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using JobSearchSolution;
+using JobSearchSolution.ViewModel;
 
 namespace JobSearchSolution.Controllers
 {
@@ -40,50 +38,47 @@ namespace JobSearchSolution.Controllers
 
         // GET: Events/Create
         public ActionResult Create()
-        {
-            ViewBag.Type = new SelectList(db.EventType, "Id", "Type");
-            ViewBag.Contact = new SelectList(db.Contact, "Id", "Name");
-            ViewBag.Opp = new SelectList(db.Opp, "Id", "Name");
-            return View();
-        }
+		{
+			EventViewModel evm = new EventViewModel()
+			{
+				Event = new Event()
+			};
+			LoadLists(ref evm);
+			return View(evm);
+		}
 
-        // POST: Events/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+		// POST: Events/Create
+		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Type,Date,Description,Results")] Event @event)
+        public ActionResult Create(EventViewModel evm)
         {
-            if (ModelState.IsValid)
-            {
-				@event.UserId = SessionValues.CurrentUserId;
-				string str = Request["Opp"]; // e.g. "1,2,5"
-				if (str != null)
+            if (!ModelState.IsValid)
+			{
+				LoadLists(ref evm);
+				return View(evm);
+			}
+			{
+				evm.Event.UserId = SessionValues.CurrentUserId;
+				db.Event.Add(evm.Event);
+				foreach (var op in db.Opp)
 				{
-					foreach (string oId in str.Split(','))
+					if (evm.SelectedOpps.Contains(op.Id))
 					{
-						Opp o = db.Opp.Find(Int32.Parse(oId));
-						@event.Opp.Add(o);
+						evm.Event.Opp.Add(op);
 					}
 				}
-				str = Request["Contact"]; // e.g. "1,2,5"
-				if (str != null)
+				foreach (var c in db.Contact)
 				{
-					foreach (string cId in str.Split(','))
+					if (evm.SelectedContacts.Contains(c.Id))
 					{
-						Contact c = db.Contact.Find(Int32.Parse(cId));
-						@event.Contact.Add(c);
+						evm.Event.Contact.Add(c);
 					}
 				}
-
-				db.Event.Add(@event);
-                db.SaveChanges();
+				db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            // ViewBag.Type = new SelectList(db.EventType, "Id", "Type", @event.Type);
-            // ViewBag.UserId = new SelectList(db.User, "Id", "UserName", @event.UserId);
-            return View(@event);
         }
 
         // GET: Events/Edit/5
@@ -93,13 +88,16 @@ namespace JobSearchSolution.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Event @event = db.Event.Find(id);
-            if (@event == null)
+			EventViewModel evm = new EventViewModel()
+			{
+				Event = db.Event.Include(i => i.Contact).Include(i => i.Opp).First(c => c.Id == (int)id)
+			};
+			if (evm.Event == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Type = new SelectList(db.EventType, "Id", "Type", @event.Type);
-            return View(@event);
+			LoadLists(ref evm);
+			return View(evm);
         }
 
         // POST: Events/Edit/5
@@ -107,17 +105,48 @@ namespace JobSearchSolution.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,UserId,Name,Type,Date,Description,Results")] Event @event)
+        public ActionResult Edit(EventViewModel evm)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(@event).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+            if (!ModelState.IsValid)
+			{
+				LoadLists(ref evm);
+				return View(evm);
+			}
+			{
+				Event oldEvent = db.Event
+					.Include(i => i.Contact)
+					.Include(i => i.Opp)
+					.First(c => c.Id == evm.Event.Id);
+
+				if (TryUpdateModel(oldEvent, "Event"))
+				{
+					foreach (Opp op in db.Opp.Where(e => e.IsActive))
+					{
+						if (evm.SelectedOpps.Contains(op.Id))
+						{
+							oldEvent.Opp.Add(op);
+						}
+						else
+						{
+							oldEvent.Opp.Remove(op);
+						}
+					}
+					foreach (Contact c in db.Contact.Where(e => e.IsActive))
+					{
+						if (evm.SelectedContacts.Contains(c.Id))
+						{
+							oldEvent.Contact.Add(c);
+						}
+						else
+						{
+							oldEvent.Contact.Remove(c);
+						}
+					}
+					db.Entry(oldEvent).State = EntityState.Modified;
+					db.SaveChanges();
+				}
+				return RedirectToAction("Index");
             }
-            ViewBag.Type = new SelectList(db.EventType, "Id", "Type", @event.Type);
-            ViewBag.UserId = new SelectList(db.User, "Id", "UserName", @event.UserId);
-            return View(@event);
         }
 
         protected override void Dispose(bool disposing)
@@ -128,5 +157,12 @@ namespace JobSearchSolution.Controllers
             }
             base.Dispose(disposing);
         }
-    }
+
+		private void LoadLists(ref EventViewModel evt)
+		{
+			evt.AllEventTypes = new SelectList(db.EventType, "Id", "Type");
+			evt.AllContacts = new SelectList(db.Contact, "Id", "Name");
+			evt.AllOpps = new SelectList(db.Opp, "Id", "Name");
+		}
+	}
 }

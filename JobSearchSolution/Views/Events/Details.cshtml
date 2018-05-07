@@ -43,14 +43,28 @@
             @Html.DisplayFor(model => model.EventType.Type)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.User.UserName)
-        </dt>
+		<dt>
+			@Html.DisplayNameFor(model => model.Contact)
+		</dt>
+		<dd>
+			@foreach (var o in Model.Contact)
+			{
+				@Html.ActionLink(o.Name, "Details", "Contacts", new { id = o.Id }, null);
+				<br />
+			}
+		</dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.User.UserName)
-        </dd>
 
+		<dt>
+			@Html.DisplayNameFor(model => model.Opp)
+		</dt>
+		<dd>
+			@foreach (var e in Model.Opp)
+			{
+				@Html.ActionLink(e.Name, "Details", "Opps", new { id = e.Id }, null);
+				<br />
+			}
+		</dd>
     </dl>
 </div>
 <p>
