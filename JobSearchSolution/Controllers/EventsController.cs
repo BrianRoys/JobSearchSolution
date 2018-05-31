@@ -15,7 +15,10 @@ namespace JobSearchSolution.Controllers
         // GET: Events
         public ActionResult Index()
         {
-			var events = db.Event.Where(c => c.UserId == SessionValues.CurrentUserId).Include(e => e.EventType).Include(e => e.User);
+			var events = db.Event
+				.Where(c => c.UserId == SessionValues.CurrentUserId)
+				.OrderByDescending(c => c.Date)
+				.Include(e => e.EventType).Include(e => e.User);
 			return View(events.ToList());
         }
 

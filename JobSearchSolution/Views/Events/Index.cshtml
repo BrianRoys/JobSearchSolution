@@ -13,13 +13,10 @@
 <table class="table">
 	<tr>
 		<th>
-			@Html.DisplayNameFor(model => model.Name)
+			@Html.DisplayNameFor(model => model.Date)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.EventType.Type)
-		</th>
-		<th>
-			@Html.DisplayNameFor(model => model.Date)
 		</th>
 		<th>
 			@Html.DisplayNameFor(model => model.Description)
@@ -34,13 +31,10 @@
 	{
 		<tr>
 			<td>
-				@Html.DisplayFor(modelItem => item.Name)
+				@Html.DisplayFor(modelItem => item.Date)
 			</td>
 			<td>
 				@Html.DisplayFor(modelItem => item.EventType.Type)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.Date)
 			</td>
 			<td>
 				@Html.DisplayFor(modelItem => item.Description)

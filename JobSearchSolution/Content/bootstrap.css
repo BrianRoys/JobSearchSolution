@@ -6814,3 +6814,13 @@ td.visible-print {
     display: none !important;
   }
 }
+
+/* DatePicker */
+.ui-datepicker {
+	opacity: 1;
+	filter: alpha(opacity=100);
+	background-color: lightgray;
+	margin: 5px auto 0;
+	font: 9pt Arial, sans-serif;
+	padding: 2px;
+}
