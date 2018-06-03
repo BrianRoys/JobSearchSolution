@@ -32,7 +32,7 @@
           <Property Name="Description" Type="varchar" MaxLength="1024" />
           <Property Name="Results" Type="varchar" MaxLength="1024" />
         </EntityType>
-        <EntityType Name="Event2Contact">
+        <EntityType Name="EventToContact">
           <Key>
             <PropertyRef Name="EventId" />
             <PropertyRef Name="ContactId" />
@@ -64,7 +64,7 @@
           <Property Name="Rate" Type="varchar" MaxLength="45" />
           <Property Name="HasBeenReported" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="Opp2Contact">
+        <EntityType Name="OppToContact">
           <Key>
             <PropertyRef Name="OppId" />
             <PropertyRef Name="ContactId" />
@@ -72,7 +72,7 @@
           <Property Name="OppId" Type="int" Nullable="false" />
           <Property Name="ContactId" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="Opp2Event">
+        <EntityType Name="OppToEvent">
           <Key>
             <PropertyRef Name="OppId" />
             <PropertyRef Name="EventId" />
@@ -147,26 +147,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fkEvent2Contact_Contact">
+        <Association Name="fkEventToContact_Contact">
           <End Role="Contact" Type="Self.Contact" Multiplicity="1" />
-          <End Role="Event2Contact" Type="Self.Event2Contact" Multiplicity="*" />
+          <End Role="EventToContact" Type="Self.EventToContact" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Contact">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Event2Contact">
+            <Dependent Role="EventToContact">
               <PropertyRef Name="ContactId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fkEvent2Contact_Event">
+        <Association Name="fkEventToContact_Event">
           <End Role="Event" Type="Self.Event" Multiplicity="1" />
-          <End Role="Event2Contact" Type="Self.Event2Contact" Multiplicity="*" />
+          <End Role="EventToContact" Type="Self.EventToContact" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Event">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Event2Contact">
+            <Dependent Role="EventToContact">
               <PropertyRef Name="EventId" />
             </Dependent>
           </ReferentialConstraint>
@@ -195,50 +195,50 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fkOpp2Contact_Contact">
+        <Association Name="fkOppToContact_Contact">
           <End Role="Contact" Type="Self.Contact" Multiplicity="1" />
-          <End Role="Opp2Contact" Type="Self.Opp2Contact" Multiplicity="*" />
+          <End Role="OppToContact" Type="Self.OppToContact" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Contact">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Opp2Contact">
+            <Dependent Role="OppToContact">
               <PropertyRef Name="ContactId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fkOpp2Contact_Opp">
+        <Association Name="fkOppToContact_Opp">
           <End Role="Opp" Type="Self.Opp" Multiplicity="1" />
-          <End Role="Opp2Contact" Type="Self.Opp2Contact" Multiplicity="*" />
+          <End Role="OppToContact" Type="Self.OppToContact" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Opp">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Opp2Contact">
+            <Dependent Role="OppToContact">
               <PropertyRef Name="OppId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fkOpp2Event_Event">
+        <Association Name="fkOppToEvent_Event">
           <End Role="Event" Type="Self.Event" Multiplicity="1" />
-          <End Role="Opp2Event" Type="Self.Opp2Event" Multiplicity="*" />
+          <End Role="OppToEvent" Type="Self.OppToEvent" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Event">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Opp2Event">
+            <Dependent Role="OppToEvent">
               <PropertyRef Name="EventId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fkOpp2Event_Opp">
+        <Association Name="fkOppToEvent_Opp">
           <End Role="Opp" Type="Self.Opp" Multiplicity="1" />
-          <End Role="Opp2Event" Type="Self.Opp2Event" Multiplicity="*" />
+          <End Role="OppToEvent" Type="Self.OppToEvent" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Opp">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Opp2Event">
+            <Dependent Role="OppToEvent">
               <PropertyRef Name="OppId" />
             </Dependent>
           </ReferentialConstraint>
@@ -246,11 +246,11 @@
         <EntityContainer Name="JSSModelStoreContainer">
           <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Event2Contact" EntityType="Self.Event2Contact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventToContact" EntityType="Self.EventToContact" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventType" EntityType="Self.EventType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Opp" EntityType="Self.Opp" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Opp2Contact" EntityType="Self.Opp2Contact" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Opp2Event" EntityType="Self.Opp2Event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OppToContact" EntityType="Self.OppToContact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OppToEvent" EntityType="Self.OppToEvent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OppStatus" EntityType="Self.OppStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
@@ -266,13 +266,13 @@
             <End Role="User" EntitySet="User" />
             <End Role="Event" EntitySet="Event" />
           </AssociationSet>
-          <AssociationSet Name="fkEvent2Contact_Contact" Association="Self.fkEvent2Contact_Contact">
+          <AssociationSet Name="fkEventToContact_Contact" Association="Self.fkEventToContact_Contact">
             <End Role="Contact" EntitySet="Contact" />
-            <End Role="Event2Contact" EntitySet="Event2Contact" />
+            <End Role="EventToContact" EntitySet="EventToContact" />
           </AssociationSet>
-          <AssociationSet Name="fkEvent2Contact_Event" Association="Self.fkEvent2Contact_Event">
+          <AssociationSet Name="fkEventToContact_Event" Association="Self.fkEventToContact_Event">
             <End Role="Event" EntitySet="Event" />
-            <End Role="Event2Contact" EntitySet="Event2Contact" />
+            <End Role="EventToContact" EntitySet="EventToContact" />
           </AssociationSet>
           <AssociationSet Name="fkOpp_OppStatus" Association="Self.fkOpp_OppStatus">
             <End Role="OppStatus" EntitySet="OppStatus" />
@@ -282,21 +282,21 @@
             <End Role="User" EntitySet="User" />
             <End Role="Opp" EntitySet="Opp" />
           </AssociationSet>
-          <AssociationSet Name="fkOpp2Contact_Contact" Association="Self.fkOpp2Contact_Contact">
+          <AssociationSet Name="fkOppToContact_Contact" Association="Self.fkOppToContact_Contact">
             <End Role="Contact" EntitySet="Contact" />
-            <End Role="Opp2Contact" EntitySet="Opp2Contact" />
+            <End Role="OppToContact" EntitySet="OppToContact" />
           </AssociationSet>
-          <AssociationSet Name="fkOpp2Contact_Opp" Association="Self.fkOpp2Contact_Opp">
+          <AssociationSet Name="fkOppToContact_Opp" Association="Self.fkOppToContact_Opp">
             <End Role="Opp" EntitySet="Opp" />
-            <End Role="Opp2Contact" EntitySet="Opp2Contact" />
+            <End Role="OppToContact" EntitySet="OppToContact" />
           </AssociationSet>
-          <AssociationSet Name="fkOpp2Event_Event" Association="Self.fkOpp2Event_Event">
+          <AssociationSet Name="fkOppToEvent_Event" Association="Self.fkOppToEvent_Event">
             <End Role="Event" EntitySet="Event" />
-            <End Role="Opp2Event" EntitySet="Opp2Event" />
+            <End Role="OppToEvent" EntitySet="OppToEvent" />
           </AssociationSet>
-          <AssociationSet Name="fkOpp2Event_Opp" Association="Self.fkOpp2Event_Opp">
+          <AssociationSet Name="fkOppToEvent_Opp" Association="Self.fkOppToEvent_Opp">
             <End Role="Opp" EntitySet="Opp" />
-            <End Role="Opp2Event" EntitySet="Opp2Event" />
+            <End Role="OppToEvent" EntitySet="OppToEvent" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -317,8 +317,8 @@
           <Property Name="URL" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="Notes" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="User" Relationship="Self.fkContact_User" FromRole="Contact" ToRole="User" />
-          <NavigationProperty Name="Event" Relationship="Self.Event2Contact" FromRole="Contact" ToRole="Event" />
-          <NavigationProperty Name="Opp" Relationship="Self.Opp2Contact" FromRole="Contact" ToRole="Opp" />
+          <NavigationProperty Name="Event" Relationship="Self.EventToContact" FromRole="Contact" ToRole="Event" />
+          <NavigationProperty Name="Opp" Relationship="Self.OppToContact" FromRole="Contact" ToRole="Opp" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Event">
@@ -333,8 +333,8 @@
           <Property Name="Results" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="EventType" Relationship="Self.fkEvent_EventType" FromRole="Event" ToRole="EventType" />
           <NavigationProperty Name="User" Relationship="Self.fkEvent_User" FromRole="Event" ToRole="User" />
-          <NavigationProperty Name="Contact" Relationship="Self.Event2Contact" FromRole="Event" ToRole="Contact" />
-          <NavigationProperty Name="Opp" Relationship="Self.Opp2Event" FromRole="Event" ToRole="Opp" />
+          <NavigationProperty Name="Contact" Relationship="Self.EventToContact" FromRole="Event" ToRole="Contact" />
+          <NavigationProperty Name="Opp" Relationship="Self.OppToEvent" FromRole="Event" ToRole="Opp" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="EventType">
@@ -363,8 +363,8 @@
           <Property Name="HasBeenReported" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="OppStatus" Relationship="Self.fkOpp_OppStatus" FromRole="Opp" ToRole="OppStatus" />
           <NavigationProperty Name="User" Relationship="Self.fkOpp_User" FromRole="Opp" ToRole="User" />
-          <NavigationProperty Name="Contact" Relationship="Self.Opp2Contact" FromRole="Opp" ToRole="Contact" />
-          <NavigationProperty Name="Event" Relationship="Self.Opp2Event" FromRole="Opp" ToRole="Event" />
+          <NavigationProperty Name="Contact" Relationship="Self.OppToContact" FromRole="Opp" ToRole="Contact" />
+          <NavigationProperty Name="Event" Relationship="Self.OppToEvent" FromRole="Opp" ToRole="Event" />
         </EntityType>
         <EntityType Name="OppStatus">
           <Key>
@@ -461,15 +461,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Event2Contact">
+        <Association Name="EventToContact">
           <End Role="Contact" Type="Self.Contact" Multiplicity="*" />
           <End Role="Event" Type="Self.Event" Multiplicity="*" />
         </Association>
-        <Association Name="Opp2Contact">
+        <Association Name="OppToContact">
           <End Role="Contact" Type="Self.Contact" Multiplicity="*" />
           <End Role="Opp" Type="Self.Opp" Multiplicity="*" />
         </Association>
-        <Association Name="Opp2Event">
+        <Association Name="OppToEvent">
           <End Role="Event" Type="Self.Event" Multiplicity="*" />
           <End Role="Opp" Type="Self.Opp" Multiplicity="*" />
         </Association>
@@ -501,15 +501,15 @@
             <End Role="User" EntitySet="User" />
             <End Role="Opp" EntitySet="Opp" />
           </AssociationSet>
-          <AssociationSet Name="Event2Contact" Association="Self.Event2Contact">
+          <AssociationSet Name="EventToContact" Association="Self.EventToContact">
             <End Role="Contact" EntitySet="Contact" />
             <End Role="Event" EntitySet="Event" />
           </AssociationSet>
-          <AssociationSet Name="Opp2Contact" Association="Self.Opp2Contact">
+          <AssociationSet Name="OppToContact" Association="Self.OppToContact">
             <End Role="Contact" EntitySet="Contact" />
             <End Role="Opp" EntitySet="Opp" />
           </AssociationSet>
-          <AssociationSet Name="Opp2Event" Association="Self.Opp2Event">
+          <AssociationSet Name="OppToEvent" Association="Self.OppToEvent">
             <End Role="Event" EntitySet="Event" />
             <End Role="Opp" EntitySet="Opp" />
           </AssociationSet>
@@ -609,7 +609,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="Event2Contact" TypeName="JSSModel.Event2Contact" StoreEntitySet="Event2Contact">
+          <AssociationSetMapping Name="EventToContact" TypeName="JSSModel.EventToContact" StoreEntitySet="EventToContact">
             <EndProperty Name="Contact">
               <ScalarProperty Name="Id" ColumnName="ContactId" />
             </EndProperty>
@@ -617,7 +617,7 @@
               <ScalarProperty Name="Id" ColumnName="EventId" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="Opp2Contact" TypeName="JSSModel.Opp2Contact" StoreEntitySet="Opp2Contact">
+          <AssociationSetMapping Name="OppToContact" TypeName="JSSModel.OppToContact" StoreEntitySet="OppToContact">
             <EndProperty Name="Contact">
               <ScalarProperty Name="Id" ColumnName="ContactId" />
             </EndProperty>
@@ -625,7 +625,7 @@
               <ScalarProperty Name="Id" ColumnName="OppId" />
             </EndProperty>
           </AssociationSetMapping>
-          <AssociationSetMapping Name="Opp2Event" TypeName="JSSModel.Opp2Event" StoreEntitySet="Opp2Event">
+          <AssociationSetMapping Name="OppToEvent" TypeName="JSSModel.OppToEvent" StoreEntitySet="OppToEvent">
             <EndProperty Name="Event">
               <ScalarProperty Name="Id" ColumnName="EventId" />
             </EndProperty>

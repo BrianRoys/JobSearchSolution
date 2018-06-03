@@ -17,9 +17,9 @@
         <AssociationConnector Association="JSSModel.fkEvent_User" ManuallyRouted="false" />
         <AssociationConnector Association="JSSModel.fkOpp_OppStatus" ManuallyRouted="false" />
         <AssociationConnector Association="JSSModel.fkOpp_User" ManuallyRouted="false" />
-        <AssociationConnector Association="JSSModel.Event2Contact" ManuallyRouted="false" />
-        <AssociationConnector Association="JSSModel.Opp2Contact" ManuallyRouted="false" />
-        <AssociationConnector Association="JSSModel.Opp2Event" ManuallyRouted="false" />
+        <AssociationConnector Association="JSSModel.EventToContact" ManuallyRouted="false" />
+        <AssociationConnector Association="JSSModel.OppToContact" ManuallyRouted="false" />
+        <AssociationConnector Association="JSSModel.OppToEvent" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

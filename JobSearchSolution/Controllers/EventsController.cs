@@ -115,41 +115,39 @@ namespace JobSearchSolution.Controllers
 				LoadLists(ref evm);
 				return View(evm);
 			}
-			{
-				Event oldEvent = db.Event
-					.Include(i => i.Contact)
-					.Include(i => i.Opp)
-					.First(c => c.Id == evm.Event.Id);
+			Event oldEvent = db.Event
+				.Include(i => i.Contact)
+				.Include(i => i.Opp)
+				.First(c => c.Id == evm.Event.Id);
 
-				if (TryUpdateModel(oldEvent, "Event"))
+			if (TryUpdateModel(oldEvent, "Event"))
+			{
+				foreach (Opp op in db.Opp.Where(e => e.IsActive))
 				{
-					foreach (Opp op in db.Opp.Where(e => e.IsActive))
+					if (evm.SelectedOpps.Contains(op.Id))
 					{
-						if (evm.SelectedOpps.Contains(op.Id))
-						{
-							oldEvent.Opp.Add(op);
-						}
-						else
-						{
-							oldEvent.Opp.Remove(op);
-						}
+						oldEvent.Opp.Add(op);
 					}
-					foreach (Contact c in db.Contact.Where(e => e.IsActive))
+					else
 					{
-						if (evm.SelectedContacts.Contains(c.Id))
-						{
-							oldEvent.Contact.Add(c);
-						}
-						else
-						{
-							oldEvent.Contact.Remove(c);
-						}
+						oldEvent.Opp.Remove(op);
 					}
-					db.Entry(oldEvent).State = EntityState.Modified;
-					db.SaveChanges();
 				}
-				return RedirectToAction("Index");
-            }
+				foreach (Contact c in db.Contact.Where(e => e.IsActive))
+				{
+					if (evm.SelectedContacts.Contains(c.Id))
+					{
+						oldEvent.Contact.Add(c);
+					}
+					else
+					{
+						oldEvent.Contact.Remove(c);
+					}
+				}
+				db.Entry(oldEvent).State = EntityState.Modified;
+				db.SaveChanges();
+			}
+			return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
