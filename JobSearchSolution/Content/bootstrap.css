@@ -6824,3 +6824,10 @@ td.visible-print {
 	font: 9pt Arial, sans-serif;
 	padding: 2px;
 }
+
+/* Like the jumbotron. */
+.table, .form-horizontal, .dl-horizontal {
+	background-color: #eeeeff;
+	border-radius: 6px;
+	padding: 2px 0px 2px 12px;
+}

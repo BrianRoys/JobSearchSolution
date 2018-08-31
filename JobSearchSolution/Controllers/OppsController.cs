@@ -4,19 +4,30 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using JobSearchSolution.ViewModel;
+using Microsoft.AspNet.Identity;
 
 namespace JobSearchSolution.Controllers
 {
-    public class OppsController : Controller
+	[Authorize]
+	public class OppsController : Controller
     {
-        private JSSEntities2 db = new JSSEntities2();
+        private JSSEntities3 db = new JSSEntities3();
 
-        // GET: Opps
-        public ActionResult Index()
-        {
-            var opps = db.Opp.Where(o => o.UserId == SessionValues.CurrentUserId).Include(o => o.OppStatus);
-            return View(opps.ToList());
-        }
+		// GET: Opps
+		public ActionResult Index(bool ShowInactive = false)
+		{
+			var userId = new Guid (this.HttpContext.User.Identity.GetUserId());
+			if (ShowInactive)
+			{
+				var opps = db.Opp.Where(o => o.UserId == userId && !o.IsActive).Include(o => o.OppStatus);
+				return View(opps.ToList());
+			}
+			else
+			{
+				var opps = db.Opp.Where(o => o.UserId == userId && o.IsActive).Include(o => o.OppStatus);
+				return View(opps.ToList());
+			}
+		}
 
         // GET: Opps/Details/5
         public ActionResult Details(int? id)
@@ -58,7 +69,8 @@ namespace JobSearchSolution.Controllers
 			}
 			else
             {
-				ovm.Opp.UserId = SessionValues.CurrentUserId;
+				var userId = new Guid(this.HttpContext.User.Identity.GetUserId());
+				ovm.Opp.UserId = userId;
 				ovm.Opp.DateOpened = DateTime.Now;
 				ovm.Opp.IsActive = true;
 				db.Opp.Add(ovm.Opp);
@@ -158,8 +170,9 @@ namespace JobSearchSolution.Controllers
 
 		private void LoadLists(ref OppViewModel ovm)
 		{
-			ovm.AllEvents = new SelectList(db.Event.Where(e => e.UserId == SessionValues.CurrentUserId), "Id", "Name");
-			ovm.AllContacts = new SelectList(db.Contact.Where(o => o.IsActive && o.UserId == SessionValues.CurrentUserId), "Id", "Name");
+			var userId = new Guid(this.HttpContext.User.Identity.GetUserId());
+			ovm.AllEvents = new SelectList(db.Event.Where(e => e.UserId == userId), "Id", "Name");
+			ovm.AllContacts = new SelectList(db.Contact.Where(o => o.IsActive && o.UserId == userId), "Id", "Name");
 			ovm.AllStatuses = new SelectList(db.OppStatus.Where(o => o.IsActive).OrderBy(o => o.SortOrder), "Id", "Status");
 		}
 	}

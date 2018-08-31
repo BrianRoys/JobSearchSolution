@@ -7,9 +7,14 @@
 
 <h2>Contacts</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@Html.ActionLink("Create New", "Create", null, new { Class = "btn btn-default" })
+@using (Html.BeginForm())
+{
+	<p>
+		Show Inactive? @Html.CheckBox("ShowInactive")
+		<input type="submit" value="Load" />
+	</p>
+}
 <table class="table">
     <tr>
         <th>
@@ -28,9 +33,6 @@
             @Html.DisplayNameFor(model => model.PhysicalAddress)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.URL)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Notes)
         </th>
 		<th>
@@ -42,44 +44,42 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Phone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EMailAddress)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AgencyName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PhysicalAddress)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.URL)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Notes)
-        </td>
-		<td>
-			@Html.DisplayFor(modelItem => item.IsActive)
-		</td>
-		<td>
-			@foreach (var o in item.Opp)
-			{
-				@Html.ActionLink(o.Name, "Details", "Opps", new { id = o.Id }, null);
-				<br />
-			}
-		</td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) 
-        </td>
-    </tr>
-}
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Name)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Phone)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.EMailAddress)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.AgencyName)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.PhysicalAddress)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Notes)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.IsActive)
+			</td>
+			<td>
+				@foreach (var o in item.Opp)
+				{
+					@Html.ActionLink(o.Name, "Details", "Opps", new { id = o.Id }, null);
+					<br />
+				}
+			</td>
+			<td>
+				@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+				@Html.ActionLink("Details", "Details", new { id = item.Id }) 
+			</td>
+		</tr>
+	}
 
 </table>

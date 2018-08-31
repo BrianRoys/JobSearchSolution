@@ -180,7 +180,6 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OppsController.cs" />
     <Compile Include="Controllers\OppStatusController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Event.cs">
       <DependentUpon>JSSModel.tt</DependentUpon>
     </Compile>
@@ -205,11 +204,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>JSSModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="JSSModel1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>JSSModel.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -221,12 +215,6 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="sysdiagrams.cs">
-      <DependentUpon>JSSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="User.cs">
-      <DependentUpon>JSSModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="ViewModel\ContactViewModel.cs" />
     <Compile Include="ViewModel\EventViewModel.cs" />
     <Compile Include="ViewModel\OppViewModel.cs" />
@@ -252,7 +240,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="JSSModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>JSSModel1.Designer.cs</LastGenOutput>
+      <LastGenOutput>JSSModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <Content Include="JSSModel.edmx.diagram">
       <DependentUpon>JSSModel.edmx</DependentUpon>
@@ -315,10 +303,6 @@
     <Content Include="Views\EventTypes\Details.cshtml" />
     <Content Include="Views\EventTypes\Edit.cshtml" />
     <Content Include="Views\EventTypes\Index.cshtml" />
-    <Content Include="Views\Users\Create.cshtml" />
-    <Content Include="Views\Users\Details.cshtml" />
-    <Content Include="Views\Users\Edit.cshtml" />
-    <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Contact.cshtml" />
     <Content Include="Views\Contacts\Create.cshtml" />
     <Content Include="Views\Contacts\Details.cshtml" />
@@ -331,6 +315,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Repository\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

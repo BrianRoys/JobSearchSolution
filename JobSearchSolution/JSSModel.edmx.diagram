@@ -4,19 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="266ea1aa18f749cd9477363a93282bd6" Name="Diagram1">
-        <EntityTypeShape EntityType="JSSModel.Contact" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="JSSModel.Event" Width="1.5" PointX="5.25" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="JSSModel.EventType" Width="1.5" PointX="5.25" PointY="5.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="JSSModel.Opp" Width="1.5" PointX="7.5" PointY="0.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="JSSModel.OppStatus" Width="1.5" PointX="7.5" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="JSSModel.sysdiagrams" Width="1.5" PointX="9.75" PointY="6.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="JSSModel.User" Width="1.5" PointX="0.75" PointY="0.5" IsExpanded="true" />
-        <AssociationConnector Association="JSSModel.fkContact_User" ManuallyRouted="false" />
+      <Diagram DiagramId="efef2f04777d4a519773b354a82d6a40" Name="Diagram1">
+        <EntityTypeShape EntityType="JSSModel.Contact" Width="1.5" PointX="2.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="JSSModel.Event" Width="1.5" PointX="5.125" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="JSSModel.EventType" Width="1.5" PointX="5.125" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="JSSModel.Opp" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="JSSModel.OppStatus" Width="1.5" PointX="0.5" PointY="4.875" IsExpanded="true" />
         <AssociationConnector Association="JSSModel.fkEvent_EventType" ManuallyRouted="false" />
-        <AssociationConnector Association="JSSModel.fkEvent_User" ManuallyRouted="false" />
         <AssociationConnector Association="JSSModel.fkOpp_OppStatus" ManuallyRouted="false" />
-        <AssociationConnector Association="JSSModel.fkOpp_User" ManuallyRouted="false" />
         <AssociationConnector Association="JSSModel.EventToContact" ManuallyRouted="false" />
         <AssociationConnector Association="JSSModel.OppToContact" ManuallyRouted="false" />
         <AssociationConnector Association="JSSModel.OppToEvent" ManuallyRouted="false" />

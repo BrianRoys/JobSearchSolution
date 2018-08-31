@@ -22,18 +22,17 @@ namespace JobSearchSolution
         }
     
         public int Id { get; set; }
-        public int UserId { get; set; }
+        public System.Guid UserId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public Nullable<System.DateTime> DateOpened { get; set; }
-        public Nullable<int> Status { get; set; }
+        public int Status { get; set; }
         public string Location { get; set; }
         public bool IsActive { get; set; }
         public string Rate { get; set; }
         public bool HasBeenReported { get; set; }
     
         public virtual OppStatus OppStatus { get; set; }
-        public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Contact> Contact { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

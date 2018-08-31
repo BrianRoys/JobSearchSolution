@@ -10,9 +10,9 @@ using JobSearchSolution;
 
 namespace JobSearchSolution.Controllers
 {
-    public class EventTypesController : Controller
+	public class EventTypesController : Controller
     {
-        private JSSEntities2 db = new JSSEntities2();
+        private JSSEntities3 db = new JSSEntities3();
 
         // GET: EventTypes
         public ActionResult Index()

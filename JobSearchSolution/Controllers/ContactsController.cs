@@ -4,22 +4,34 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using JobSearchSolution.ViewModel;
+using System;
+using Microsoft.AspNet.Identity;
 
 namespace JobSearchSolution.Controllers
 {
-    public class ContactsController : Controller
+	[Authorize]
+	public class ContactsController : Controller
     {
-        private JSSEntities2 db = new JSSEntities2();
+        private JSSEntities3 db = new JSSEntities3();
 
-        // GET: Contacts
-        public ActionResult Index()
+		// GET: Contacts
+		public ActionResult Index(bool ShowInactive = false)
         {
-			var contacts = db.Contact.Where(c => c.UserId == SessionValues.CurrentUserId); 
-            return View(contacts.ToList());
-        }
-
-        // GET: Contacts/Details/5
-        public ActionResult Details(int? id)
+			var userId = new Guid(this.HttpContext.User.Identity.GetUserId());
+			if (ShowInactive)
+			{
+				var contacts = db.Contact.Where(c => c.UserId == userId && !c.IsActive);
+				return View(contacts.ToList());
+			}
+			else
+			{
+				var contacts = db.Contact.Where(c => c.UserId == userId && c.IsActive);
+				return View(contacts.ToList());
+			}
+		}
+		
+		// GET: Contacts/Details/5
+		public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -36,11 +48,12 @@ namespace JobSearchSolution.Controllers
         // GET: Contacts/Create
         public ActionResult Create()
         {
+			var userId = new Guid(this.HttpContext.User.Identity.GetUserId());
 			ContactViewModel cvm = new ContactViewModel
 			{
 				Contact = new Contact(),
-				AllOpps = new SelectList(db.Opp.Where(o => o.IsActive && o.UserId == SessionValues.CurrentUserId), "Id", "Name"),
-				AllEvents = new SelectList(db.Event.Where(e =>  e.UserId == SessionValues.CurrentUserId), "Id", "Name")
+				AllOpps = new SelectList(db.Opp.Where(o => o.IsActive && o.UserId == userId), "Id", "Name"),
+				AllEvents = new SelectList(db.Event.Where(e =>  e.UserId == userId), "Id", "Name")
 			};
             return View(cvm);
         }
@@ -54,7 +67,8 @@ namespace JobSearchSolution.Controllers
         {
             if (ModelState.IsValid)
             {
-				cvm.Contact.UserId = SessionValues.CurrentUserId;
+				var userId = new Guid(this.HttpContext.User.Identity.GetUserId());
+				cvm.Contact.UserId = userId;
 				cvm.Contact.IsActive = true;				
 				db.Contact.Add(cvm.Contact);
 				foreach (var ev in db.Event)
@@ -92,8 +106,9 @@ namespace JobSearchSolution.Controllers
 			{
 				return HttpNotFound();
 			}
-			contactViewModel.AllEvents = new SelectList(db.Event.Where(e => e.UserId == SessionValues.CurrentUserId), "Id", "Name");
-			contactViewModel.AllOpps = new SelectList(db.Opp.Where(o => o.IsActive && o.UserId == SessionValues.CurrentUserId), "Id", "Name");
+			var userId = new Guid(this.HttpContext.User.Identity.GetUserId());
+			contactViewModel.AllEvents = new SelectList(db.Event.Where(e => e.UserId == userId), "Id", "Name");
+			contactViewModel.AllOpps = new SelectList(db.Opp.Where(o => o.IsActive && o.UserId == userId), "Id", "Name");
 			return View(contactViewModel);
 		}
 

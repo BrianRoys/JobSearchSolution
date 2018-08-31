@@ -13,10 +13,10 @@ namespace JobSearchSolution
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class JSSEntities2 : DbContext
+    public partial class JSSEntities3 : DbContext
     {
-        public JSSEntities2()
-            : base("name=JSSEntities2")
+        public JSSEntities3()
+            : base("name=JSSEntities3")
         {
         }
     
@@ -30,7 +30,5 @@ namespace JobSearchSolution
         public virtual DbSet<EventType> EventType { get; set; }
         public virtual DbSet<Opp> Opp { get; set; }
         public virtual DbSet<OppStatus> OppStatus { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
-        public virtual DbSet<User> User { get; set; }
     }
 }

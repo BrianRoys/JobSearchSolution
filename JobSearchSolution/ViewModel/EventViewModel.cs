@@ -37,7 +37,7 @@ namespace JobSearchSolution.ViewModel
 			{
 				if (_selectedOpps == null)
 				{
-					_selectedOpps = Event.Opp.Select(e => e.Id).ToList();
+					_selectedOpps = Event. Opp.Select(e => e.Id).ToList();
 				}
 				return _selectedOpps;
 			}

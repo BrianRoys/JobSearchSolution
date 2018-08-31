@@ -1,24 +1,27 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using JobSearchSolution.ViewModel;
+using Microsoft.AspNet.Identity;
+using System;
 
 namespace JobSearchSolution.Controllers
 {
-    public class EventsController : Controller
+	[Authorize]
+	public class EventsController : Controller
     {
-        private JSSEntities2 db = new JSSEntities2();
+        private JSSEntities3 db = new JSSEntities3();
 
-        // GET: Events
-        public ActionResult Index()
-        {
+		// GET: Events
+		public ActionResult Index(bool ShowInactive = false)
+		{
+			var userId = new Guid(this.HttpContext.User.Identity.GetUserId());
 			var events = db.Event
-				.Where(c => c.UserId == SessionValues.CurrentUserId)
+				.Where(c => c.UserId == userId)
 				.OrderByDescending(c => c.Date)
-				.Include(e => e.EventType).Include(e => e.User);
+				.Include(e => e.EventType);
 			return View(events.ToList());
         }
 
@@ -63,7 +66,8 @@ namespace JobSearchSolution.Controllers
 				return View(evm);
 			}
 			{
-				evm.Event.UserId = SessionValues.CurrentUserId;
+				var userId = new Guid(this.HttpContext.User.Identity.GetUserId());
+				evm.Event.UserId = userId;
 				db.Event.Add(evm.Event);
 				foreach (var op in db.Opp)
 				{

@@ -10,8 +10,7 @@ namespace JobSearchSolution.Controllers
 	{
 		public ActionResult Index()
 		{
-			// Just for now.
-			SessionValues.CurrentUserId = 6;
+			// SessionValues.CurrentUserId = 6;
 
 			return View();
 		}

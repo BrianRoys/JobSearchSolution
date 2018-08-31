@@ -8,8 +8,15 @@
 <h2>Opportunities</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", null, new { Class = "btn btn-default" })
 </p>
+@using (Html.BeginForm())
+{
+	<p>
+		Show Inactive? @Html.CheckBox("ShowInactive")
+		<input type="submit" value="Load" />
+	</p>
+}
 <table class="table">
     <tr>
         <th>

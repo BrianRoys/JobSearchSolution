@@ -10,9 +10,10 @@ using JobSearchSolution;
 
 namespace JobSearchSolution.Controllers
 {
-    public class OppStatusController : Controller
+	// [Authorize(Roles = "Administrator")]
+	public class OppStatusController : Controller
     {
-        private JSSEntities2 db = new JSSEntities2();
+        private JSSEntities3 db = new JSSEntities3();
 
         // GET: OppStatus
         public ActionResult Index()

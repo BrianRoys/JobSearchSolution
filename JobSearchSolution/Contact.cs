@@ -22,7 +22,7 @@ namespace JobSearchSolution
         }
     
         public int Id { get; set; }
-        public int UserId { get; set; }
+        public System.Guid UserId { get; set; }
         public string Name { get; set; }
         public string Phone { get; set; }
         public string EMailAddress { get; set; }
@@ -32,7 +32,6 @@ namespace JobSearchSolution
         public string Notes { get; set; }
         public bool IsActive { get; set; }
     
-        public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Event> Event { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
