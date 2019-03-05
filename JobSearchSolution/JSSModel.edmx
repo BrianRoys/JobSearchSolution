@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="JSSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="JSSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Contact">
           <Key>
             <PropertyRef Name="Id" />
@@ -29,8 +29,7 @@
           <Property Name="Name" Type="varchar" MaxLength="50" />
           <Property Name="Type" Type="int" Nullable="false" />
           <Property Name="Date" Type="datetime" />
-          <Property Name="Description" Type="varchar" MaxLength="1024" />
-          <Property Name="Results" Type="varchar" MaxLength="1024" />
+          <Property Name="Notes" Type="varchar" MaxLength="1024" />
         </EntityType>
         <EntityType Name="EventToContact">
           <Key>
@@ -227,8 +226,7 @@
             <End Role="OppToEvent" EntitySet="OppToEvent" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="JSSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -255,14 +253,13 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="Guid" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Type" Type="Int32" Nullable="false" />
           <Property Name="Date" Type="DateTime" Precision="3" />
-          <Property Name="Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
-          <Property Name="Results" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="Notes" MaxLength="1024" FixedLength="false" Unicode="false" Type="String" />
           <NavigationProperty Name="EventType" Relationship="Self.fkEvent_EventType" FromRole="Event" ToRole="EventType" />
           <NavigationProperty Name="Contact" Relationship="Self.EventToContact" FromRole="Event" ToRole="Contact" />
           <NavigationProperty Name="Opp" Relationship="Self.OppToEvent" FromRole="Event" ToRole="Opp" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="EventType">
           <Key>
@@ -390,13 +387,12 @@
           <EntitySetMapping Name="Event">
             <EntityTypeMapping TypeName="JSSModel.Event">
               <MappingFragment StoreEntitySet="Event">
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Results" ColumnName="Results" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

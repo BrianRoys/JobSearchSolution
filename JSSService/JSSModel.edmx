@@ -26,11 +26,9 @@
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="50" />
           <Property Name="Type" Type="int" Nullable="false" />
           <Property Name="Date" Type="datetime" />
-          <Property Name="Description" Type="varchar" MaxLength="1024" />
-          <Property Name="Results" Type="varchar" MaxLength="1024" />
+          <Property Name="Notes" Type="varchar" MaxLength="1024" />
         </EntityType>
         <EntityType Name="EventToContact">
           <Key>
@@ -255,11 +253,9 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="Guid" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Type" Type="Int32" Nullable="false" />
           <Property Name="Date" Type="DateTime" Precision="3" />
-          <Property Name="Description" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
-          <Property Name="Results" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="Notes" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="EventType" Relationship="Self.fkEvent_EventType" FromRole="Event" ToRole="EventType" />
           <NavigationProperty Name="Contacts" Relationship="Self.EventToContact" FromRole="Event" ToRole="Contact" />
           <NavigationProperty Name="Opps" Relationship="Self.OppToEvent" FromRole="Event" ToRole="Opp" />
@@ -392,11 +388,9 @@
               <MappingFragment StoreEntitySet="Event">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Results" ColumnName="Results" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
